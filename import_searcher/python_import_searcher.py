@@ -7,7 +7,7 @@ Searches for imports in Python files.
 
 
 class PythonFileImportSearcher(FileImportSearcher):
-    def search_import(self, file_content: str):
+    def search_import(self, file_content: str) -> set:
         found_frameworks = set()
         for name, import_name in self.frameworks.items():
             r = re.compile(f"from .*{import_name}.* .*import", re.MULTILINE)
@@ -19,12 +19,3 @@ class PythonFileImportSearcher(FileImportSearcher):
                 found_frameworks.add(name)
 
         return found_frameworks
-
-
-if __name__ == "__main__":
-    import_searcher = PythonFileImportSearcher({"sklearn": "sklearn"})
-    print(
-        import_searcher.search_import(
-            "from sklearn.linear_model import LinearRegression"
-        )
-    )

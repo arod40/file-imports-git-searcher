@@ -3,10 +3,8 @@ import logging
 from argparse import ArgumentParser
 from pathlib import Path
 
-from import_searcher.python_import_searcher import PythonFileImportSearcher
 from repo_searcher import search_repos
-
-IMPORT_SEARCHERS = {".py": PythonFileImportSearcher}
+from searchers_config import IMPORT_SEARCHERS
 
 if __name__ == "__main__":
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
