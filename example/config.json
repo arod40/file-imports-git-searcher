@@ -1,0 +1,28 @@
+{
+    "_global": {
+        "max_workers": 2,
+        "excluded_dirs": [
+            ".git",
+            "env",
+            "ci",
+            "doc"
+        ]
+    },
+    ".py": {
+        "frameworks": {
+            "pandas": "pandas",
+            "numpy": "numpy",
+            "tensorflow": "tensorflow",
+            "keras": "keras",
+            "scikit-learn": "sklearn",
+            "matplotlib": "matplotlib",
+            "seaborn": "seaborn"
+        },
+        "excluded_dirs": [
+            "venv",
+            "Lib",
+            "_lib",
+            "site-packages"
+        ]
+    }
+}
