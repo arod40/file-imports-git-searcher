@@ -85,8 +85,14 @@ def __search(
     repos_temp_path,
     writing_executor,
     output_writer,
+    ignore_repos,
 ):
     repo_full_name = repo_info["full_name"]
+
+    if repo_full_name in ignore_repos:
+        logging.info(f"Ignoring {repo_full_name}")
+        return
+
     repo_url = repo_info["url"]
     repo_path = repos_temp_path / repo_full_name.replace("/", "_")
 
@@ -129,12 +135,31 @@ def search_repos(repos, config, output_file):
     repos_temp_path = Path("__repos_temp__")
     repos_temp_path.mkdir(parents=True, exist_ok=True)
 
+    ignore_repos = []
+    rewrite_records = []
+    last_success = 0
+    if os.path.exists(output_file):
+        with open(output_file, newline="") as csvfile:
+            output_reader = csv.reader(csvfile, delimiter=",", quotechar='"')
+            next(output_reader)  # skipping the header
+            for i, record in enumerate(output_reader):
+                repo_name, _, success, *_ = record
+                ignore_repos.append(repo_name)
+                rewrite_records.append(record)
+                if success == "True":
+                    last_success = i
+    ignore_repos = set(ignore_repos[: last_success + 1])
+    rewrite_records = rewrite_records[: last_success + 1]
+
     with open(output_file, "w", newline="") as csvfile:
         output_writer = csv.writer(
             csvfile, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
         )
 
         output_writer.writerow(["full_name", "url", "success", "frameworks", "error"])
+        for record in rewrite_records:
+            logging.info(f"Rewriting {record[0]}")
+            output_writer.writerow(record)
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as writing_executor:
             with concurrent.futures.ThreadPoolExecutor(
@@ -148,6 +173,7 @@ def search_repos(repos, config, output_file):
                         repos_temp_path,
                         writing_executor,
                         output_writer,
+                        ignore_repos,
                     )
 
     repos_temp_path.rmdir()
