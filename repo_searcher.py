@@ -95,11 +95,13 @@ def __search(
 
     repo_url = repo_info["url"]
     repo_path = repos_temp_path / repo_full_name.replace("/", "_")
+    repo_commit_hash = repo_info["commit_hash"]
 
     try:
         logging.info(f"Cloning {repo_full_name}")
-        Repo.clone_from(repo_url, repo_path)
-        logging.info(f"Cloned {repo_full_name}")
+        repo = Repo.clone_from(repo_url, repo_path)
+        repo.git.checkout(repo_commit_hash)
+        logging.info(f"Cloned {repo_full_name} and checkout to commit {repo_commit_hash}")
     except git.exc.GitError as e:
         logging.error(f"Error cloning  {repo_full_name}")
         record = [repo_full_name, repo_url, False, None, str(e)]

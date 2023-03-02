@@ -1,14 +1,17 @@
 [
     {
         "full_name": "ojus1/Date2Vec",
-        "url": "https://github.com/ojus1/Date2Vec"
+        "url": "https://github.com/ojus1/Date2Vec",
+        "commit_hash": "fcfead6"
     },
     {
         "full_name": "kLabUM/rrcf",
-        "url": "https://github.com/kLabUM/rrcf"
+        "url": "https://github.com/kLabUM/rrcf",
+        "commit_hash": "34504c1"
     },
     {
         "full_name": "error!!",
-        "url": "this is not a url"
+        "url": "this is not a url",
+        "commit_hash": "dontmatter"
     }
 ]
