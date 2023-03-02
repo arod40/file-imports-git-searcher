@@ -1,0 +1,7 @@
+full_name,url,success,frameworks,error
+kLabUM/rrcf,https://github.com/kLabUM/rrcf,True,['numpy'],
+error!!,this is not a url,False,,"Cmd('git') failed due to: exit code(128)
+  cmdline: git clone -v -- this is not a url __repos_temp__\error!!
+  stderr: 'fatal: repository 'this is not a url' does not exist
+'"
+ojus1/Date2Vec,https://github.com/ojus1/Date2Vec,True,"['numpy', 'scikit-learn']",

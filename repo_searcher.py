@@ -5,6 +5,7 @@ import os
 import shutil
 import stat
 from pathlib import Path
+import csv
 
 import git
 from git import Repo
@@ -74,10 +75,16 @@ def __iter_files(root_dir, file_extensions, excluded_dirs_by_ext):
             yield file_path
 
 
+def __write_to_csv(record, csv_writer):
+    csv_writer.writerow(record)
+
+
 def __search(
     repo_info,
     config,
     repos_temp_path,
+    writing_executor,
+    output_writer,
 ):
     repo_full_name = repo_info["full_name"]
     repo_url = repo_info["url"]
@@ -89,7 +96,8 @@ def __search(
         logging.info(f"Cloned {repo_full_name}")
     except git.exc.GitError as e:
         logging.error(f"Error cloning  {repo_full_name}")
-        return False, repo_full_name, repo_url, str(e)
+        record = [repo_full_name, repo_url, False, None, str(e)]
+        writing_executor.submit(__write_to_csv, record, output_writer)
 
     found_frameworks = set()
     logging.info(f"Analyzing {repo_full_name}")
@@ -113,40 +121,33 @@ def __search(
 
     shutil.rmtree(repo_path, onerror=remove_readonly)
 
-    return True, repo_full_name, repo_url, list(found_frameworks)
+    record = [repo_full_name, repo_url, True, list(found_frameworks), None]
+    writing_executor.submit(__write_to_csv, record, output_writer)
 
 
-def search_repos(repos, config):
+def search_repos(repos, config, output_file):
     repos_temp_path = Path("__repos_temp__")
     repos_temp_path.mkdir(parents=True, exist_ok=True)
 
-    futures = []
-    with concurrent.futures.ThreadPoolExecutor(
-        max_workers=config.max_workers
-    ) as executor:
-        for repo in repos:
-            futures.append(
-                executor.submit(
-                    __search,
-                    repo,
-                    config,
-                    repos_temp_path,
-                )
-            )
+    with open(output_file, "w", newline="") as csvfile:
+        output_writer = csv.writer(
+            csvfile, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+        )
 
-    successful = []
-    errors = []
-    for future in concurrent.futures.as_completed(futures):
-        success, repo_full_name, repo_url, results = future.result()
-        if success:
-            successful.append(
-                {"full_name": repo_full_name, "url": repo_url, "frameworks": results}
-            )
-        else:
-            errors.append(
-                {"full_name": repo_full_name, "url": repo_url, "error": results}
-            )
+        output_writer.writerow(["full_name", "url", "success", "frameworks", "error"])
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as writing_executor:
+            with concurrent.futures.ThreadPoolExecutor(
+                max_workers=config.max_workers
+            ) as executor:
+                for repo in repos:
+                    executor.submit(
+                        __search,
+                        repo,
+                        config,
+                        repos_temp_path,
+                        writing_executor,
+                        output_writer,
+                    )
 
     repos_temp_path.rmdir()
-
-    return successful, errors
