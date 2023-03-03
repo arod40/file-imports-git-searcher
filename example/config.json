@@ -24,5 +24,30 @@
             "_lib",
             "site-packages"
         ]
+    },
+    ".java": {
+        "frameworks": {
+            "apache-jena": "org.apache.jena",
+            "powerloom": "powerloom",
+            "d3web": "dr",
+            "tweety": "org.tweetyproject",
+            "optaplanner": "org.optaplanner",
+            "neuroph": "org.neuroph",
+            "deeplearning4j": "org.deeplearning4j",
+            "opennlp": "opennlp",
+            "corenlp": " edu.stanford.nlp",
+            "java-ml": "",
+            "rapidminer": "import com.rapidminer",
+            "weka": "weka",
+            "encog": "org.encog",
+            "deep-java-library": "ai.djl",
+            "jenetics": "io.jenetics",
+            "watchmaker-framework": "org.uncommons.watchmaker",
+            "ecj23": "ec",
+            "java-genetics-algorithms-package": "org.jgap",
+            "eva": "eva",
+            "acceleo": "org.eclipse.acceleo"
+        },
+        "excluded_dirs": []
     }
 }
