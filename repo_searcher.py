@@ -12,6 +12,7 @@ from git import Repo
 
 from import_searcher.python_import_searcher import PythonFileImportSearcher
 from import_searcher.java_import_searcher import JavaFileImportSearcher
+from import_searcher.cpp_import_searcher import CppFileImportSearcher
 
 
 def _unsupported_file_ext(f):
@@ -25,7 +26,8 @@ def _unsupported_file_ext(f):
 
 
 class RepoSearchConfig:
-    IMPORT_SEARCHERS = {".py": PythonFileImportSearcher, ".java": JavaFileImportSearcher}
+    IMPORT_SEARCHERS = {".py": PythonFileImportSearcher, ".java": JavaFileImportSearcher, 
+                        ".h": CppFileImportSearcher, ".hpp": CppFileImportSearcher, ".cpp": CppFileImportSearcher}
 
     def __init__(self, config_path: Path):
         self._config_path = config_path
