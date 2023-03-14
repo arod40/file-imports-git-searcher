@@ -26,8 +26,13 @@ def _unsupported_file_ext(f):
 
 
 class RepoSearchConfig:
-    IMPORT_SEARCHERS = {".py": PythonFileImportSearcher, ".java": JavaFileImportSearcher, 
-                        ".h": CppFileImportSearcher, ".hpp": CppFileImportSearcher, ".cpp": CppFileImportSearcher}
+    IMPORT_SEARCHERS = {
+        ".py": PythonFileImportSearcher,
+        ".java": JavaFileImportSearcher,
+        ".h": CppFileImportSearcher,
+        ".hpp": CppFileImportSearcher,
+        ".cpp": CppFileImportSearcher,
+    }
 
     def __init__(self, config_path: Path):
         self._config_path = config_path
@@ -68,11 +73,12 @@ class RepoSearchConfig:
 
 
 def __iter_files(root_dir, file_extensions, excluded_dirs_by_ext):
-    pattern = f'*{"|".join(file_extensions)}'
     for file_path in (
         f
-        for f in root_dir.rglob(pattern)
+        for f in root_dir.rglob("*")
         if not any(d in f.parts for d in excluded_dirs_by_ext.get(f.suffix, []))
+        and f.is_file()
+        and f.suffix in file_extensions
     ):
         if file_path.is_file():
             yield file_path
@@ -104,7 +110,9 @@ def __search(
         logging.info(f"Cloning {repo_full_name}")
         repo = Repo.clone_from(repo_url, repo_path)
         repo.git.checkout(repo_commit_hash)
-        logging.info(f"Cloned {repo_full_name} and checkout to commit {repo_commit_hash}")
+        logging.info(
+            f"Cloned {repo_full_name} and checkout to commit {repo_commit_hash}"
+        )
     except git.exc.GitError as e:
         logging.error(f"Error cloning  {repo_full_name}")
         record = [repo_full_name, repo_url, False, None, str(e)]

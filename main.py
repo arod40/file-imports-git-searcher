@@ -15,7 +15,10 @@ if __name__ == "__main__":
         "-c", "--config-file", type=str, help="Path to the search config file"
     )
     parser.add_argument(
-        "-o", "--output-file", type=str, help="CSV file to save results to. If file is already existing, it will resume from the last non-error record."
+        "-o",
+        "--output-file",
+        type=str,
+        help="CSV file to save results to. If file is already existing, it will resume from the last non-error record.",
     )
 
     args = parser.parse_args()

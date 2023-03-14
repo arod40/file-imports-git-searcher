@@ -1,9 +1,11 @@
 full_name,url,success,frameworks,error
+arod40/nlpass3,https://github.com/arod40/nlp-ass3,True,['torch'],
+apache/apache-opennlp-examples,https://github.com/mmm0469/apache-opennlp-examples,True,"['java-ml', 'opennlp']",
 kLabUM/rrcf,https://github.com/kLabUM/rrcf,True,['numpy'],
+ojus1/Date2Vec,https://github.com/ojus1/Date2Vec,True,"['torch', 'numpy', 'scikit-learn']",
+magikerwin/ML-From-Scratch-With-CPP,https://github.com/magikerwin/ML-From-Scratch-With-CPP,True,[],
 error!!,this is not a url,False,,"Cmd('git') failed due to: exit code(128)
   cmdline: git clone -v -- this is not a url __repos_temp__\error!!
   stderr: 'fatal: repository 'this is not a url' does not exist
 '"
-ojus1/Date2Vec,https://github.com/ojus1/Date2Vec,True,"['torch', 'scikit-learn', 'numpy']",
-magikerwin/ML-From-Scratch-With-CPP,https://github.com/magikerwin/ML-From-Scratch-With-CPP,True,[],
-elastic/ml-cpp,https://github.com/elastic/ml-cpp,True,[],
+elastic/ml-cpp,https://github.com/elastic/ml-cpp,True,"['numpy', 'matplotlib', 'pandas', 'Boost', 'seaborn', 'scikit-learn']",
