@@ -10,6 +10,16 @@
         "commit_hash": "34504c1"
     },
     {
+        "full_name": "elastic/ml-cpp",
+        "url": "https://github.com/elastic/ml-cpp",
+        "commit_hash": "219cbc1"
+    },
+    {
+        "full_name": "magikerwin/ML-From-Scratch-With-CPP",
+        "url": "https://github.com/magikerwin/ML-From-Scratch-With-CPP",
+        "commit_hash": "f5de075"
+    },
+    {
         "full_name": "error!!",
         "url": "this is not a url",
         "commit_hash": "dontmatter"
