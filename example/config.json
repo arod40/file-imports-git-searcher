@@ -37,7 +37,7 @@
             "deeplearning4j": "org.deeplearning4j",
             "opennlp": "opennlp",
             "corenlp": " edu.stanford.nlp",
-            "java-ml": "",
+            "java-ml": "net.sf.javaml",
             "rapidminer": "import com.rapidminer",
             "weka": "weka",
             "encog": "org.encog",
