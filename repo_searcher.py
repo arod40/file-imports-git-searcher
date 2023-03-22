@@ -14,6 +14,8 @@ from import_searcher.python_import_searcher import PythonFileImportSearcher
 from import_searcher.java_import_searcher import JavaFileImportSearcher
 from import_searcher.cpp_import_searcher import CppFileImportSearcher
 
+# Set GIT_ASKPASS to avoid interactive authentication prompt
+os.environ['GIT_ASKPASS'] = './askpass.py'
 
 def _unsupported_file_ext(f):
     def wrapper(self, *args, **kwargs):
