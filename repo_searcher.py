@@ -155,7 +155,7 @@ def search_repos(repos, config, output_file):
     if os.path.exists(output_file):
         with open(output_file, newline="") as csvfile:
             output_reader = csv.reader(csvfile, delimiter=",", quotechar='"')
-            next(output_reader)  # skipping the header
+            next(output_reader, None)  # skipping the header
             for record in output_reader:
                 repo_name, _, success, *_ = record
                 if success == "True":
