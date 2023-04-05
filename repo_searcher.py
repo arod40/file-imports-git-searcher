@@ -150,21 +150,17 @@ def search_repos(repos, config, output_file):
     repos_temp_path = Path("__repos_temp__")
     repos_temp_path.mkdir(parents=True, exist_ok=True)
 
-    ignore_repos = []
     rewrite_records = []
-    last_success = 0
+    ignore_repos = set()
     if os.path.exists(output_file):
         with open(output_file, newline="") as csvfile:
             output_reader = csv.reader(csvfile, delimiter=",", quotechar='"')
             next(output_reader)  # skipping the header
-            for i, record in enumerate(output_reader):
+            for record in output_reader:
                 repo_name, _, success, *_ = record
-                ignore_repos.append(repo_name)
-                rewrite_records.append(record)
                 if success == "True":
-                    last_success = i
-    ignore_repos = set(ignore_repos[: last_success + 1])
-    rewrite_records = rewrite_records[: last_success + 1]
+                    ignore_repos.add(repo_name)
+                    rewrite_records.append(record)
 
     with open(output_file, "w", newline="") as csvfile:
         output_writer = csv.writer(
