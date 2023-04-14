@@ -110,7 +110,7 @@ def __search(
 
     try:
         logging.info(f"Cloning {repo_full_name}")
-        repo = Repo.clone_from(repo_url, repo_path)
+        repo = Repo.clone_from(repo_url, repo_path, multi_options=["--config credential.helper=''"])
         repo.git.checkout(repo_commit_hash)
         logging.info(
             f"Cloned {repo_full_name} and checkout to commit {repo_commit_hash}"
