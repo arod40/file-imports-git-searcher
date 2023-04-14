@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import shutil
+import sys
 import stat
 from pathlib import Path
 import csv
@@ -15,7 +16,19 @@ from import_searcher.java_import_searcher import JavaFileImportSearcher
 from import_searcher.cpp_import_searcher import CppFileImportSearcher
 
 # Set GIT_ASKPASS to avoid interactive authentication prompt
-os.environ['GIT_ASKPASS'] = './askpass.py'
+os.environ["GIT_ASKPASS"] = "./askpass.py"
+
+# Allow large csv files
+max_int = sys.maxsize
+while True:
+    # decrease the maxInt value by factor 10
+    # as long as the OverflowError occurs.
+    try:
+        csv.field_size_limit(max_int)
+        break
+    except OverflowError:
+        max_int = int(max_int / 10)
+
 
 def _unsupported_file_ext(f):
     def wrapper(self, *args, **kwargs):
