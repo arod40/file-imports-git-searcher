@@ -1,0 +1,6 @@
+# Ignore everything
+*
+# Include specific files
+!*.py
+!import_searcher/**/*.py
+!requirements.txt
