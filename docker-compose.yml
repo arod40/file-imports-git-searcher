@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${REPOS_PATH}:/app/repos.json:ro
+      - ${CONFIG_PATH}:/app/config.json:ro
+      - ${OUTPUT_DIRECTORY}:/app/output
